@@ -27,7 +27,7 @@ struct Paddle2
 
 void UpdatePositionPaddle1(Paddle1& paddle1)
 {
-	const float dy = 5.0f;
+	const float dy = 8.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		if (paddle1.y < WINDOW_HEIGHT-PADDLE_HEIGHT)
 		paddle1.y += dy;
@@ -37,7 +37,7 @@ void UpdatePositionPaddle1(Paddle1& paddle1)
 }
 void UpdatePositionPaddle2(Paddle2& paddle2)
 {
-	const float dy = 5.0f;
+	const float dy = 8.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		if (paddle2.y < WINDOW_HEIGHT - PADDLE_HEIGHT)
 		paddle2.y += dy;
@@ -64,6 +64,13 @@ void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2)
 		ball.dy = fabs(ball.dy);
 	if (ball.y >= WINDOW_HEIGHT)
 		ball.dy = -fabs(ball.dy);
+	if (ball.x > WINDOW_WIDTH || ball.x < -BALL_WIDTH)
+	{
+		ball.dy = 0;
+		ball.dx = -ball.dx;
+		ball.x = 394;
+		ball.y = 250;
+	}
 }
 
 int main()
@@ -77,6 +84,22 @@ int main()
 	tPaddle1.loadFromFile("Resources/Paddle.png");
 	tPaddle2.loadFromFile("Resources/Paddle2.png");
 	tBall.loadFromFile("Resources/Ball.png");
+
+	sf::Font font;
+	font.loadFromFile("Resources/Tuffy.ttf");
+
+	sf::Text Score1;
+	Score1.setFont(font);
+	Score1.setString("0");
+	Score1.setCharacterSize(80);
+	Score1.setFillColor(sf::Color::White);
+
+	sf::Text Score2;
+	Score2.setPosition(750, 0);
+	Score2.setFont(font);
+	Score2.setString("0");
+	Score2.setCharacterSize(80);
+	Score2.setFillColor(sf::Color::White);
 
 	Sprite sprBackground(tBackground);
 	Sprite sprPaddle1(tPaddle1);
@@ -120,6 +143,9 @@ int main()
 
 		app.draw(sprBall);
 		sprBall.setPosition(ball.x, ball.y);
+
+		app.draw(Score1);
+		app.draw(Score2);
 
 		app.display();
 	}
