@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <Cmath>
 
 using namespace sf;
 using namespace std;
@@ -8,6 +9,9 @@ const int WINDOW_HEIGHT = 500;
 
 const int PADDLE_WIDTH = 12;
 const int PADDLE_HEIGHT = 70;
+
+const int BALL_WIDTH = 12;
+const int BALL_HEIGHT = 12;
 
 struct Ball
 {
@@ -24,31 +28,40 @@ struct Paddle2
 
 void UpdatePositionPaddle1(Paddle1& paddle1)
 {
-	const float dy = 1.0f;
+	const float dy = 5.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+		if (paddle1.y < WINDOW_HEIGHT-PADDLE_HEIGHT)
 		paddle1.y += dy;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+		if(paddle1.y > 0)
 		paddle1.y -= dy;
 }
 void UpdatePositionPaddle2(Paddle2& paddle2)
 {
-	const float dy = 1.0f;
+	const float dy = 5.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+		if (paddle2.y < WINDOW_HEIGHT - PADDLE_HEIGHT)
 		paddle2.y += dy;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		paddle2.y -= dy;
+		if (paddle2.y > 0)
+			paddle2.y -= dy;
 }
 void UpdatePositionBall(Ball& ball, float& dy)
 {
-	//const float dx = 1.0f;
-	ball.y += dy;
+	const float dx = 10.0f;
+	ball.x += dx;
+	if (ball.y <= 0 || ball.y >= WINDOW_HEIGHT)
+		ball.dy *= -1;
+	if (ball.x < paddle1.x && (abs(ball.y - paddle1.y) > PADDLE_HEIGHT / 2));
+	
 }
 
 int main()
 {
 	srand((unsigned)time(nullptr));
 	RenderWindow app(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Ping Pong");
-	
+	app.setFramerateLimit(60);
+
 	Texture tBackground, tPaddle1, tPaddle2, tBall;
 	tBackground.loadFromFile("Resources/Background.png");
 	tPaddle1.loadFromFile("Resources/Paddle.png");
@@ -86,7 +99,7 @@ int main()
 		UpdatePositionPaddle1(paddle1);
 		UpdatePositionPaddle2(paddle2);
 		UpdatePositionBall(ball, dy);
-		
+
 		app.draw(sprBackground);
 
 		sprPaddle1.setPosition(paddle1.x, paddle1.y);
