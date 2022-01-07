@@ -1,4 +1,5 @@
 #include <SFML/Graphics.hpp>
+#include <format>
 
 using namespace sf;
 using namespace std;
@@ -27,7 +28,7 @@ struct Paddle2
 
 void UpdatePositionPaddle1(Paddle1& paddle1)
 {
-	const float dy = 8.0f;
+	const float dy = 10.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
 		if (paddle1.y < WINDOW_HEIGHT-PADDLE_HEIGHT)
 		paddle1.y += dy;
@@ -37,7 +38,7 @@ void UpdatePositionPaddle1(Paddle1& paddle1)
 }
 void UpdatePositionPaddle2(Paddle2& paddle2)
 {
-	const float dy = 8.0f;
+	const float dy = 10.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		if (paddle2.y < WINDOW_HEIGHT - PADDLE_HEIGHT)
 		paddle2.y += dy;
@@ -45,7 +46,7 @@ void UpdatePositionPaddle2(Paddle2& paddle2)
 		if (paddle2.y > 0)
 			paddle2.y -= dy;
 }
-void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2)
+void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float &score1, float &score2)
 {
 	ball.x += ball.dx;
 	ball.y += ball.dy;
@@ -70,6 +71,8 @@ void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2)
 		ball.dx = -ball.dx;
 		ball.x = 394;
 		ball.y = 250;
+		score1 += 1;
+		score2 += 1;
 	}
 }
 
@@ -120,6 +123,9 @@ int main()
 	paddle2.x = WINDOW_WIDTH - 12;
 	paddle2.y = WINDOW_HEIGHT / 2;
 
+	float score1 = 0;
+	float score2 = 0;
+
 	while (app.isOpen())
 	{
 		Event e;
@@ -131,7 +137,7 @@ int main()
 
 		UpdatePositionPaddle1(paddle1);
 		UpdatePositionPaddle2(paddle2);
-		UpdatePositionBall(ball, paddle1 ,paddle2);
+		UpdatePositionBall(ball, paddle1, paddle2, score1, score2);
 
 		app.draw(sprBackground);
 
@@ -144,6 +150,8 @@ int main()
 		app.draw(sprBall);
 		sprBall.setPosition(ball.x, ball.y);
 
+		Score1.setString(std::format("{:.0f}", score1));
+		Score2.setString(std::format("{:.0f}", score2));
 		app.draw(Score1);
 		app.draw(Score2);
 
