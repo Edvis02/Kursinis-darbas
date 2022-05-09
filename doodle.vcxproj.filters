@@ -34,5 +34,8 @@
     <ClInclude Include="Sources\Objects.h">
       <Filter>Sources</Filter>
     </ClInclude>
+    <ClInclude Include="Sources\Utils.h">
+      <Filter>Sources</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

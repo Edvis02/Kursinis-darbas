@@ -101,6 +101,7 @@
   <ItemGroup>
     <ClInclude Include="Sources\Defines.h" />
     <ClInclude Include="Sources\Objects.h" />
+    <ClInclude Include="Sources\Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
