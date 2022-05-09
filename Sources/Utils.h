@@ -20,6 +20,7 @@ void UpdatePositionPaddle2(Paddle2& paddle2)
 		if (paddle2.y > 0)
 			paddle2.y -= dy;
 }
+
 void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float& score1, float& score2)
 {
 	ball.x += ball.dx;
@@ -45,16 +46,27 @@ void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float& s
 	{
 		ball.dy = 0;
 		ball.dx = -ball.dx;
-		ball.x = 394;
-		ball.y = 250;
+		ball.x = MID_X;
+		ball.y = MID_Y;
 		score1 += 1;
 	}
 	if (ball.x < -BALL_WIDTH)
 	{
 		ball.dy = 0;
 		ball.dx = -ball.dx;
-		ball.x = 394;
-		ball.y = 250;
+		ball.x = MID_X;
+		ball.y = MID_Y;
 		score2 += 1;
 	}
 }
+
+//void updatepositionpaddle1(paddle1& paddle1)
+//{
+//	const float dy = 10.0f;
+//	if (sf::keyboard::iskeypressed(sf::keyboard::s))
+//		if (paddle1.y < window_height - paddle_height)
+//			paddle1.y += dy;
+//	if (sf::keyboard::iskeypressed(sf::keyboard::w))
+//		if (paddle1.y > 0)
+//			paddle1.y -= dy;
+//}

@@ -12,3 +12,11 @@ struct Paddle2
 {
 	float x, y;
 };
+struct moving_Obstacles1
+{
+	float x, y, dx, dy;
+};
+struct moving_Obstacles2
+{
+	float x, y, dx, dy;
+};

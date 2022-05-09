@@ -1,6 +1,5 @@
 #include <SFML/Graphics.hpp>
 #include <format>
-
 #include "Defines.h"
 #include "Objects.h"
 #include "Utils.h"
@@ -14,11 +13,13 @@ int main()
 	RenderWindow app(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Ping Pong");
 	app.setFramerateLimit(60);
 
-	Texture tBackground, tPaddle1, tPaddle2, tBall;
+	Texture tBackground, tPaddle1, tPaddle2, tBall, tMovingObstacle1, tMovingObstacle2;
 	tBackground.loadFromFile("Resources/Background.png");
 	tPaddle1.loadFromFile("Resources/Paddle.png");
-	tPaddle2.loadFromFile("Resources/Paddle2.png");
+	tPaddle2.loadFromFile("Resources/Paddle.png");
 	tBall.loadFromFile("Resources/Ball.png");
+	tMovingObstacle1.loadFromFile("Resources/Paddle.png");
+	tMovingObstacle2.loadFromFile("Resources/Paddle.png");
 
 	sf::Font font;
 	font.loadFromFile("Resources/Tuffy.ttf");
@@ -36,14 +37,17 @@ int main()
 	Score2.setCharacterSize(80);
 	Score2.setFillColor(sf::Color::White);
 
+
 	Sprite sprBackground(tBackground);
 	Sprite sprPaddle1(tPaddle1);
 	Sprite sprBall(tBall);
 	Sprite sprPaddle2(tPaddle2);
+	Sprite sprtMovingObstacle1(tMovingObstacle1);
+	Sprite sprtMovingObstacle2(tMovingObstacle2);
 
 	Ball ball;
-	ball.x = 394;
-	ball.y = 250;
+	ball.x = MID_X;
+	ball.y = MID_Y;
 	ball.dx = 10;
 	ball.dy = 0;
 
@@ -54,6 +58,18 @@ int main()
 	Paddle2 paddle2;
 	paddle2.x = WINDOW_WIDTH - 12;
 	paddle2.y = WINDOW_HEIGHT / 2;
+
+	moving_Obstacles1 movingObstacles1;
+	movingObstacles1.x = 197;
+	movingObstacles1.y = 430;
+	movingObstacles1.dx = 0;
+	movingObstacles1.dy = 10;
+
+	moving_Obstacles2 movingObstacles2;
+	movingObstacles2.x = 591;
+	movingObstacles2.y = 0;
+	movingObstacles2.dx = 0;
+	movingObstacles2.dy = 10;
 
 	float score1 = 0;
 	float score2 = 0;
@@ -66,7 +82,6 @@ int main()
 			if (e.type == Event::Closed)
 				app.close();
 		}
-
 		UpdatePositionPaddle1(paddle1);
 		UpdatePositionPaddle2(paddle2);
 		UpdatePositionBall(ball, paddle1, paddle2, score1, score2);
@@ -86,6 +101,11 @@ int main()
 		Score2.setString(std::format("{:.0f}", score2));
 		app.draw(Score1);
 		app.draw(Score2);
+
+		sprtMovingObstacle1.setPosition(movingObstacles1.x, movingObstacles1.y);
+		sprtMovingObstacle2.setPosition(movingObstacles2.x, movingObstacles2.y);
+		app.draw(sprtMovingObstacle1);
+		app.draw(sprtMovingObstacle2);
 
 		app.display();
 	}

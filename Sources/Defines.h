@@ -8,3 +8,7 @@ const int PADDLE_HEIGHT = 70;
 
 const int BALL_WIDTH = 12;
 const int BALL_HEIGHT = 12;
+
+const int MID_X = 394;
+const int MID_Y = 250;
+
