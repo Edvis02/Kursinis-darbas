@@ -1,56 +1,37 @@
 #include <SFML/Graphics.hpp>
 #include <format>
 
+#include "Defines.h"
+#include "Objects.h"
+
 using namespace sf;
 using namespace std;
-
-const int WINDOW_WIDTH = 800;
-const int WINDOW_HEIGHT = 500;
-
-const int PADDLE_WIDTH = 12;
-const int PADDLE_HEIGHT = 70;
-
-const int BALL_WIDTH = 12;
-const int BALL_HEIGHT = 12;
-
-struct Ball
-{
-	float x, y, dx, dy;
-};
-struct Paddle1
-{
-	float x, y;
-};
-struct Paddle2
-{
-	float x, y;
-};
 
 void UpdatePositionPaddle1(Paddle1& paddle1)
 {
 	const float dy = 10.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		if (paddle1.y < WINDOW_HEIGHT-PADDLE_HEIGHT)
-		paddle1.y += dy;
+		if (paddle1.y < WINDOW_HEIGHT - PADDLE_HEIGHT)
+			paddle1.y += dy;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		if(paddle1.y > 0)
-		paddle1.y -= dy;
+		if (paddle1.y > 0)
+			paddle1.y -= dy;
 }
 void UpdatePositionPaddle2(Paddle2& paddle2)
 {
 	const float dy = 10.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 		if (paddle2.y < WINDOW_HEIGHT - PADDLE_HEIGHT)
-		paddle2.y += dy;
+			paddle2.y += dy;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 		if (paddle2.y > 0)
 			paddle2.y -= dy;
 }
-void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float &score1, float &score2)
+void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float& score1, float& score2)
 {
 	ball.x += ball.dx;
 	ball.y += ball.dy;
-	
+
 	if (ball.x > paddle2.x && paddle2.y - BALL_HEIGHT < ball.y && ball.y < paddle2.y + PADDLE_HEIGHT)
 	{
 		ball.dx = -ball.dx;
@@ -62,7 +43,11 @@ void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float &s
 		ball.dy += rand() % 5 - 3;
 	}
 	if (ball.y <= 0)
+	{
 		ball.dy = fabs(ball.dy);
+		if (ball.dy = fabs(ball.dy))
+			score1 += 1;
+	}
 	if (ball.y >= WINDOW_HEIGHT)
 		ball.dy = -fabs(ball.dy);
 	if (ball.x > WINDOW_WIDTH || ball.x < -BALL_WIDTH)
@@ -71,8 +56,8 @@ void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float &s
 		ball.dx = -ball.dx;
 		ball.x = 394;
 		ball.y = 250;
-		score1 += 1;
-		score2 += 1;
+		//score1 += 1;
+		//score2 += 1;
 	}
 }
 
