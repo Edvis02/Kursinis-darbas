@@ -20,8 +20,31 @@ void UpdatePositionPaddle2(Paddle2& paddle2)
 		if (paddle2.y > 0)
 			paddle2.y -= dy;
 }
-
-void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float& score1, float& score2)
+void UpdateMovingObstacles1(moving_Obstacles1& movingObstacles1)
+{
+	const float dy = 10.0f;
+	movingObstacles1.x += movingObstacles1.dx;
+	movingObstacles1.y += movingObstacles1.dy;
+	if (movingObstacles1.y <= 0)
+	{
+		movingObstacles1.dy = fabs(movingObstacles1.dy);
+	}
+	if (movingObstacles1.y >= WINDOW_HEIGHT)
+		movingObstacles1.dy = -fabs(movingObstacles1.dy);
+}
+void UpdateMovingObstacles2(moving_Obstacles2& movingObstacles2)
+{
+	const float dy = 10.0f;
+	movingObstacles2.x += movingObstacles2.dx;
+	movingObstacles2.y += movingObstacles2.dy;
+	if (movingObstacles2.y <= 0)
+	{
+		movingObstacles2.dy = fabs(movingObstacles2.dy);
+	}
+	if (movingObstacles2.y >= WINDOW_HEIGHT)
+		movingObstacles2.dy = -fabs(movingObstacles2.dy);
+}
+void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, moving_Obstacles1& movingObstacles1, moving_Obstacles2& movingObstacles2, float& score1, float& score2)
 {
 	ball.x += ball.dx;
 	ball.y += ball.dy;
@@ -36,6 +59,20 @@ void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float& s
 		ball.dx = -ball.dx;
 		ball.dy += rand() % 5 - 3;
 	}
+
+
+	// cia reikia sutvarkyti kazkaip (tvarkymas tarp //)
+	if (ball.x > movingObstacles1.x && movingObstacles1.y /*- BALL_HEIGHT*/ < ball.y && ball.y < movingObstacles1.y + PADDLE_HEIGHT)
+	{
+		ball.dx = -ball.dx;
+		ball.dy += rand() % 5 - 3;
+	}
+	//if (ball.x < movingObstacles1.x && movingObstacles1.y /*- BALL_HEIGHT*/ < ball.y && ball.y < movingObstacles1.y + PADDLE_HEIGHT)
+	//{
+	//	ball.dx = -ball.dx;
+	//	ball.dy += rand() % 5 - 3;
+	//}
+
 	if (ball.y <= 0)
 	{
 		ball.dy = fabs(ball.dy);
@@ -59,14 +96,3 @@ void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, float& s
 		score2 += 1;
 	}
 }
-
-//void updatepositionpaddle1(paddle1& paddle1)
-//{
-//	const float dy = 10.0f;
-//	if (sf::keyboard::iskeypressed(sf::keyboard::s))
-//		if (paddle1.y < window_height - paddle_height)
-//			paddle1.y += dy;
-//	if (sf::keyboard::iskeypressed(sf::keyboard::w))
-//		if (paddle1.y > 0)
-//			paddle1.y -= dy;
-//}

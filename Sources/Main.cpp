@@ -31,7 +31,7 @@ int main()
 	Score1.setFillColor(sf::Color::White);
 
 	sf::Text Score2;
-	Score2.setPosition(750, 0);
+	Score2.setPosition(710, 0);
 	Score2.setFont(font);
 	Score2.setString("0");
 	Score2.setCharacterSize(80);
@@ -63,13 +63,13 @@ int main()
 	movingObstacles1.x = 197;
 	movingObstacles1.y = 430;
 	movingObstacles1.dx = 0;
-	movingObstacles1.dy = 10;
+	movingObstacles1.dy = OBSTACLES_SPEED;
 
 	moving_Obstacles2 movingObstacles2;
 	movingObstacles2.x = 591;
 	movingObstacles2.y = 0;
 	movingObstacles2.dx = 0;
-	movingObstacles2.dy = 10;
+	movingObstacles2.dy = OBSTACLES_SPEED;
 
 	float score1 = 0;
 	float score2 = 0;
@@ -84,7 +84,9 @@ int main()
 		}
 		UpdatePositionPaddle1(paddle1);
 		UpdatePositionPaddle2(paddle2);
-		UpdatePositionBall(ball, paddle1, paddle2, score1, score2);
+		UpdateMovingObstacles1(movingObstacles1);
+		UpdateMovingObstacles2(movingObstacles2);
+		UpdatePositionBall(ball, paddle1, paddle2, movingObstacles1, movingObstacles2, score1, score2);
 
 		app.draw(sprBackground);
 
