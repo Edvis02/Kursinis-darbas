@@ -4,6 +4,9 @@
     <ClCompile Include="Sources/Main.cpp">
       <Filter>Sources</Filter>
     </ClCompile>
+    <ClCompile Include="Sources\Objects.cpp">
+      <Filter>Sources</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\background.png">
@@ -31,10 +34,10 @@
     <ClInclude Include="Sources\Defines.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Objects.h">
+    <ClInclude Include="Sources\Utils.h">
       <Filter>Sources</Filter>
     </ClInclude>
-    <ClInclude Include="Sources\Utils.h">
+    <ClInclude Include="Sources\Objects.h">
       <Filter>Sources</Filter>
     </ClInclude>
   </ItemGroup>

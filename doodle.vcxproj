@@ -91,6 +91,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Sources/Main.cpp" />
+    <ClCompile Include="Sources\Objects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\background.png" />

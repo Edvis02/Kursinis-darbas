@@ -1,24 +1,24 @@
-#pragma once
+﻿#pragma once
 
-void UpdatePositionPaddle1(Paddle1& paddle1)
+void UpdatePositionPaddle1(Paddle& paddle1)
 {
 	const float dy = 10.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-		if (paddle1.y < WINDOW_HEIGHT - PADDLE_HEIGHT)
-			paddle1.y += dy;
+		if (paddle1.GetY() < WINDOW_HEIGHT - PADDLE_HEIGHT)
+			paddle1.Judejimas(dy);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-		if (paddle1.y > 0)
-			paddle1.y -= dy;
+		if (paddle1.GetY() > 0)
+			paddle1.Judejimas(-dy);
 }
-void UpdatePositionPaddle2(Paddle2& paddle2)
+void UpdatePositionPaddle2(Paddle& paddle2)
 {
 	const float dy = 10.0f;
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
-		if (paddle2.y < WINDOW_HEIGHT - PADDLE_HEIGHT)
-			paddle2.y += dy;
+		if (paddle2.GetY() < WINDOW_HEIGHT - PADDLE_HEIGHT)
+			paddle2.Judejimas(dy);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
-		if (paddle2.y > 0)
-			paddle2.y -= dy;
+		if (paddle2.GetY() > 0)
+			paddle2.Judejimas(-dy);
 }
 void UpdateMovingObstacles1(moving_Obstacles1& movingObstacles1)
 {
@@ -44,55 +44,57 @@ void UpdateMovingObstacles2(moving_Obstacles2& movingObstacles2)
 	if (movingObstacles2.y >= WINDOW_HEIGHT)
 		movingObstacles2.dy = -fabs(movingObstacles2.dy);
 }
-void UpdatePositionBall(Ball& ball, Paddle1& paddle1, Paddle2& paddle2, moving_Obstacles1& movingObstacles1, moving_Obstacles2& movingObstacles2, float& score1, float& score2)
+void UpdatePositionBall(Ball& ball, Paddle& paddle1, Paddle& paddle2, moving_Obstacles1& movingObstacles1, moving_Obstacles2& movingObstacles2, float& score1, float& score2, float& dx, float& dy)
 {
-	ball.x += ball.dx;
-	ball.y += ball.dy;
 
-	if (ball.x > paddle2.x && paddle2.y - BALL_HEIGHT < ball.y && ball.y < paddle2.y + PADDLE_HEIGHT)
+	ball.Judejimas(dx, dy);
+	if (ball.GetX() > paddle2.GetX() && paddle2.GetY() - BALL_HEIGHT < ball.GetY() && ball.GetY() < paddle2.GetY() + PADDLE_HEIGHT)
 	{
-		ball.dx = -ball.dx;
-		ball.dy += rand() % 5 - 3;
+		dx = -dx;
+		dy += rand() % 5 - 3;
 	}
-	if (ball.x < paddle1.x && paddle1.y - BALL_HEIGHT < ball.y && ball.y < paddle1.y + PADDLE_HEIGHT)
+	if (ball.GetX() < paddle1.GetX() && paddle1.GetY() - BALL_HEIGHT < ball.GetY() && ball.GetY() < paddle1.GetY() + PADDLE_HEIGHT)
 	{
-		ball.dx = -ball.dx;
-		ball.dy += rand() % 5 - 3;
+		dx = -dx;
+		dy += rand() % 5 - 3;
 	}
 
-
-	// cia reikia sutvarkyti kazkaip (tvarkymas tarp //)
-	if (ball.x > movingObstacles1.x && movingObstacles1.y /*- BALL_HEIGHT*/ < ball.y && ball.y < movingObstacles1.y + PADDLE_HEIGHT)
-	{
-		ball.dx = -ball.dx;
-		ball.dy += rand() % 5 - 3;
-	}
-	//if (ball.x < movingObstacles1.x && movingObstacles1.y /*- BALL_HEIGHT*/ < ball.y && ball.y < movingObstacles1.y + PADDLE_HEIGHT)
+	// atmusimas is kaires
+	//if (ball.x > movingObstacles2.x && movingObstacles2.y - BALL_HEIGHT < ball.y && ball.y < movingObstacles2.y + PADDLE_HEIGHT)
 	//{
 	//	ball.dx = -ball.dx;
+	//	//ball.x += ball.dx;
 	//	ball.dy += rand() % 5 - 3;
 	//}
 
-	if (ball.y <= 0)
+	// atmusimas is kaires
+	//if (ball.x > movingObstacles1.x && movingObstacles1.y - BALL_HEIGHT < ball.y && ball.y < movingObstacles1.y + PADDLE_HEIGHT) 
+	//{
+	//	ball.dx = -ball.dx;
+	//	//ball.x += ball.dx;
+	//	ball.dy += rand() % 5 - 3;
+	//}
+
+	if (ball.GetY() <= 0)
 	{
-		ball.dy = fabs(ball.dy);
+		dy = fabs(dy);
 	}
-	if (ball.y >= WINDOW_HEIGHT)
-		ball.dy = -fabs(ball.dy);
-	if (ball.x > WINDOW_WIDTH)
+	if (ball.GetY() >= WINDOW_HEIGHT)
 	{
-		ball.dy = 0;
-		ball.dx = -ball.dx;
-		ball.x = MID_X;
-		ball.y = MID_Y;
+		dy = -fabs(dy);
+	}
+	if (ball.GetX() > WINDOW_WIDTH)
+	{
+		dy = 0;
+		dx = -dx;
+		ball.Reset();
 		score1 += 1;
 	}
-	if (ball.x < -BALL_WIDTH)
+	if (ball.GetX() < -BALL_WIDTH)
 	{
-		ball.dy = 0;
-		ball.dx = -ball.dx;
-		ball.x = MID_X;
-		ball.y = MID_Y;
+		dy = 0;
+		dx = -dx;
+		ball.Reset();
 		score2 += 1;
 	}
 }
