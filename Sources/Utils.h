@@ -44,10 +44,26 @@ void UpdateMovingObstacles2(moving_Obstacles2& movingObstacles2)
 	if (movingObstacles2.y >= WINDOW_HEIGHT)
 		movingObstacles2.dy = -fabs(movingObstacles2.dy);
 }
+
+bool IsBetween(float val, float rangeB, float rangeE)
+{
+	return val > rangeB && val < rangeE;
+}
+
+template <typename T>
+bool IsCollision(Ball& ball, T& obj)
+{
+	const bool betweenX = IsBetween(ball.GetX(), obj.x, obj.x + PADDLE_WIDTH) ||
+		IsBetween(ball.GetX() + BALL_WIDTH, obj.x, obj.x + PADDLE_WIDTH);
+
+	const bool betweenY = IsBetween(ball.GetY(), obj.y, obj.y + PADDLE_HEIGHT) ||
+		IsBetween(ball.GetY() + BALL_WIDTH, obj.y, obj.y + PADDLE_HEIGHT);
+
+	return betweenX && betweenY;
+}
+
 void UpdatePositionBall(Ball& ball, Paddle& paddle1, Paddle& paddle2, moving_Obstacles1& movingObstacles1, moving_Obstacles2& movingObstacles2, float& score1, float& score2, float& dx, float& dy)
 {
-
-	ball.Judejimas(dx, dy);
 	if (ball.GetX() > paddle2.GetX() && paddle2.GetY() - BALL_HEIGHT < ball.GetY() && ball.GetY() < paddle2.GetY() + PADDLE_HEIGHT)
 	{
 		dx = -dx;
@@ -59,21 +75,18 @@ void UpdatePositionBall(Ball& ball, Paddle& paddle1, Paddle& paddle2, moving_Obs
 		dy += rand() % 5 - 3;
 	}
 
-	// atmusimas is kaires
-	//if (ball.x > movingObstacles2.x && movingObstacles2.y - BALL_HEIGHT < ball.y && ball.y < movingObstacles2.y + PADDLE_HEIGHT)
-	//{
-	//	ball.dx = -ball.dx;
-	//	//ball.x += ball.dx;
-	//	ball.dy += rand() % 5 - 3;
-	//}
+	if (IsCollision(ball, movingObstacles1))
+	{
+		dx = -dx;
+		dy += rand() % 5 - 3;
+	}
 
-	// atmusimas is kaires
-	//if (ball.x > movingObstacles1.x && movingObstacles1.y - BALL_HEIGHT < ball.y && ball.y < movingObstacles1.y + PADDLE_HEIGHT) 
-	//{
-	//	ball.dx = -ball.dx;
-	//	//ball.x += ball.dx;
-	//	ball.dy += rand() % 5 - 3;
-	//}
+	if (IsCollision(ball, movingObstacles2))
+	{
+		dx = -dx;
+	}
+
+	ball.Judejimas(dx, dy);
 
 	if (ball.GetY() <= 0)
 	{

@@ -15,7 +15,12 @@ public:
 	void Reset();
 };
 
-class Paddle
+class Object
+{
+
+};
+
+class Paddle : public Object
 {
 private:
 	float x, y;
@@ -26,11 +31,12 @@ public:
 	int GetY();
 	void Judejimas(int movementY);
 };
-struct moving_Obstacles1
+
+struct moving_Obstacles1 : public Object
 {
 	float x, y, dx, dy;
 };
-struct moving_Obstacles2
+struct moving_Obstacles2 : public Object
 {
 	float x, y, dx, dy;
 };
